@@ -1,0 +1,28 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: ly-search
+#  autoconfigure:
+#    # 取消数据库连接
+#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: 127.0.0.1:9300
+  datasource:
+    url: jdbc:mysql://localhost:3306/yun6?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: 123
+  jackson:
+    default-property-inclusion: non_null
+  rabbitmq:
+    host: 127.0.0.1
+    username: root
+    password: 123
+    virtual-host: /leyou
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+

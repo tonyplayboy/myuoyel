@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+
+
+spring:
+  application:
+    name: ly-item
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/yun6?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: 123
+  rabbitmq:
+    host: 127.0.0.1
+    username: root
+    password: 123
+    virtual-host: /leyou
+    template:
+      exchange: leyou.item.exchange
+    publisher-confirms: true
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+zuul:
+  prefix: /api # 添加路由前缀
+  routes:
+    ly-item: /item/**
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

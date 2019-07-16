@@ -1,0 +1,54 @@
+
+
+server:
+  port: 10010
+spring:
+  application:
+    name: ly-gateway
+
+#  main:
+#    allow-bean-definition-overriding:
+#      true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+zuul:
+  prefix: /api # 添加路由前缀
+  routes:
+    ly-cart: /cart/**
+    ly-order: /order/**
+    ly-user: /user/**
+    ly-item: /item/**
+    ly-search: /search/**
+    ly-auth: /auth/**
+    ly-upload:
+      path: /upload/**
+      serviceId: ly-upload
+      strip-prefix: false
+  add-host-header: true # 解决cookie域名问题
+  sensitive-headers:    # 解决zuul过滤器覆盖set-cookie
+ribbon:
+  ConnectTimeout: 250 # 连接超时时间(ms)
+  ReadTimeout: 2000 # 通信超时时间(ms)
+  MaxAutoRetries: 0 # 当前服务重试次数
+  MaxAutoRetriesNextServer: 0 # 切换服务重试次数
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # 熔断超时时长
+leyou:
+  jwt:
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+    cookieName: LY_TOKEN
+  filter:
+    allowPaths:
+      /api/auth,
+      /api/search,
+      /api/user/register,
+      /api/user/check,
+      /api/user/code,
+      /api/item,

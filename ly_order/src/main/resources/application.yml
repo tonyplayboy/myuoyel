@@ -1,0 +1,46 @@
+server:
+  port: 8089
+spring:
+  application:
+    name: ly-order
+  datasource:
+    url: jdbc:mysql://localhost:3306/yun6?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: 123
+  redis:
+    host: localhost
+  rabbitmq:
+    host: 127.0.0.1
+    username: root
+    password: 123
+    virtual-host: /leyou
+    template:
+      exchange: leyou.item.exchange
+    publisher-confirms: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+
+mybatis:
+  type-aliases-package: com.leyou.order.pojo
+leyou:
+  jwt:
+    cookieName: LY_TOKEN
+    pubKeyPath: C:\\tmp\\rsa\\rsa.pub # 公钥地址
+  worker:
+    workerId: 1
+    dataCenterId: 1
+  pay:
+    appId: wx8397f8696b538317
+    mchId: 1473426802
+    key: T6m9iK73b0kn9g5v426MKfHQH7X8rKwb
+    connectTimeoutMs: 5000
+    readTimeoutMs: 10000
+    notifyUrl: http://9kywaj.natappfree.cc/notify/pay
